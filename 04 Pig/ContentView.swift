@@ -28,44 +28,49 @@ struct ContentView: View {
                 CustomText(text: "Turn Score: \(turnScore)")
                 HStack {
                     VStack{
-                    Button("Roll") {
-                        chooseRandom(times: 3)
-                        withAnimation(.interpolatingSpring(stiffness: 10, damping: 3)) {
+                        Button("Roll") {
+                            chooseRandom(times: 3)
+                            withAnimation(.interpolatingSpring(stiffness: 10, damping: 3)) {
+                                rotation += 360
+                            }
+                        }
+                        .buttonStyle(CustomButtonStyle())
+                    }
+                    .padding()
+                    Button("Hold"){
+                        gameScore += turnScore
+                        endTurn()
+                        withAnimation(.easeOut(duration: 1.0)){
                             rotation += 360
                         }
-                    }
-                    .buttonStyle(CustomButtonStyle())
-                }
-                .padding()
-                Button("Hold"){
-                    gameScore += turnScore
-                    endTurn()
-                    withAnimation(.easeOut(duration: 1.0)){
-                        rotation += 360
-                    }
-                    if gameScore >= 100 {
-                        gameOver = true
-                    }
+                        if gameScore >= 100 {
+                            gameOver = true
+                        }
                     }
                 }
                 .buttonStyle(CustomButtonStyle())
                 .padding()
                 CustomText(text: "Game Score: \(turnScore)")
                 
-               NavigationLink( "How to Play", destination: InstructionsView())
+                NavigationLink( "How to Play", destination: InstructionsView())
                     .font(Font.custom("Marker Felt", size: 24))
                     .padding()
+                Button("Reset") {
+                    endTurn()
+                    gameScore = 0
+                }
+                .font(Font.custom("Marker Felt", size: 24))
                 Spacer()
             }
         }
         .alert(isPresented : $gameOver, content : {
             Alert(title: Text("You won the game!"), dismissButton:
-                .destructive(Text("Play again"), action: {
-                    withAnimation(Animation.default) {
-                        gameScore = 0
-                        gameOver = false
-                    }
-                }))
+                    .destructive(Text("Play again"), action: {
+                        withAnimation(Animation.default) {
+                            gameScore = 0
+                            gameOver = false
+                        }
+                    }))
         })
     }
     func endTurn() {
