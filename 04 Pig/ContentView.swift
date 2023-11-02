@@ -29,7 +29,6 @@ struct ContentView: View {
                         .padding(50)
                     CustomText(text: "Turn Score: \(turnScore)")
                     HStack {
-                        VStack{
                             Button("Roll") {
                                 chooseRandom(times: 3)
                                 withAnimation(.interpolatingSpring(stiffness: 10, damping: 3)) {
@@ -37,9 +36,7 @@ struct ContentView: View {
                                 }
                             }
                             .buttonStyle(CustomButtonStyle())
-                        }
-                        .padding()
-                        Button("Hold"){
+                            Button("Hold"){
                             gameScore += turnScore
                             endTurn()
                             withAnimation(.easeOut(duration: 1.0)){
@@ -116,7 +113,8 @@ struct CustomText: View {
 struct CustomButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(width: 50)
+            .frame(width: 100)
+            .frame(height: 50)
             .font(Font.custom("Marker Felt", size: 24))
             .background(.red).opacity(configuration.isPressed ? 0.0 : 1.0)
             .foregroundColor(.white)
@@ -127,24 +125,24 @@ struct CustomButtonStyle: ButtonStyle {
 struct InstructionsView: View {
     var body: some View {
         ZStack {
-                Color.gray.opacity(0.7).ignoresSafeArea()
-                VStack{
-                    Image("Pig").resizable().frame(width: 150, height: 150)
-                    Text("Pig").font(.title)
-                    VStack (alignment: .leading) {
-                        Text("In the game of Pig, players take individual turns. Each turn, a player repeatedly rolls a single die until either a pig is rolled or the player decides to \"hold\". ")
-                            .padding()
-                        Text("If the player rolls a pig, they sore nothing, and it becomes the next player's turn.")
-                            .padding()
-                        Text("If the player rolls any other number, it is added to their turn total, and the player's turn continues.")
-                            .padding()
-                        Text("If the player chooses to \"hold\", their turn total is added to their game score, and becomes the next player's turn")
-                            .padding()
-                        Text("A player wins the game when the game score becomes 100 or more on their turn.")
-                            .padding()
-                    }
-                    Spacer()
+            Color.gray.opacity(0.7).ignoresSafeArea()
+            VStack{
+                Image("Pig").resizable().frame(width: 150, height: 150)
+                Text("Pig").font(.title)
+                VStack (alignment: .leading) {
+                    Text("In the game of Pig, players take individual turns. Each turn, a player repeatedly rolls a single die until either a pig is rolled or the player decides to \"hold\". ")
+                        .padding()
+                    Text("If the player rolls a pig, they sore nothing, and it becomes the next player's turn.")
+                        .padding()
+                    Text("If the player rolls any other number, it is added to their turn total, and the player's turn continues.")
+                        .padding()
+                    Text("If the player chooses to \"hold\", their turn total is added to their game score, and becomes the next player's turn")
+                        .padding()
+                    Text("A player wins the game when the game score becomes 100 or more on their turn.")
+                        .padding()
                 }
+                Spacer()
             }
         }
     }
+}
